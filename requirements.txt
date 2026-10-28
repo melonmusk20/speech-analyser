@@ -1,0 +1,9 @@
+streamlit>=1.35
+faster-whisper>=1.0
+av>=14,<17         # av 19 breaks faster-whisper decoding
+numpy
+pandas
+plotly
+librosa        # optional fallback decoder
+spacy          # optional; then run: python -m spacy download en_core_web_sm
+pytest
