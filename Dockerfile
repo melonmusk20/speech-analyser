@@ -7,17 +7,22 @@ ENV PYTHONUNBUFFERED=1 \
     STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
     STREAMLIT_SERVER_PORT=8600
 
+# Hugging Face Spaces runs containers as UID 1000
+RUN useradd -m -u 1000 user
 WORKDIR /app
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt \
     && python -m spacy download en_core_web_sm
 
+RUN mkdir -p /models && chown user /models
+USER user
+
 # Bake a Whisper model into the image so the app works offline right after install.
 ARG WHISPER_MODEL=base
 RUN python -c "from faster_whisper import WhisperModel; WhisperModel('${WHISPER_MODEL}', device='cpu', compute_type='int8')"
 
-COPY . .
+COPY --chown=user . .
 
 EXPOSE 8600
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \

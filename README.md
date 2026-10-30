@@ -1,3 +1,13 @@
+---
+title: Speech Analyser
+emoji: 🎙️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 8600
+pinned: false
+---
+
 # Speech Analyser
 
 Local Streamlit app: upload a recording, get a transcript, word count, WPM, fillers,
