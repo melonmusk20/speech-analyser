@@ -1,6 +1,7 @@
 """Speech Analyser: Streamlit UI. All analysis logic lives in services/."""
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 from streamlit.runtime.scriptrunner import get_script_run_ctx
 
@@ -73,8 +74,18 @@ filler_dict = {"definite": [l.strip() for l in definite.splitlines() if l.strip(
 st.title("🎙️ Speech Analyser")
 st.caption("Your speech, measured and understood.")
 
-upload = st.file_uploader("Upload your recording", type=list(config.SUPPORTED_EXTENSIONS),
-                          help="MP3 · WAV · M4A · AAC · FLAC · MP4")
+source = st.radio("Audio source", ["Upload a file", "Record with microphone"], horizontal=True,
+                  label_visibility="collapsed")
+if source == "Upload a file":
+    upload = st.file_uploader("Upload your recording", type=list(config.SUPPORTED_EXTENSIONS),
+                              help="MP3 · WAV · M4A · AAC · FLAC · MP4")
+else:
+    st.caption("Your browser will ask for microphone access. Speak, then press stop.")
+    clip = st.audio_input("Record your speech")
+    upload = None
+    if clip is not None:
+        data = clip.getvalue()
+        upload = SimpleNamespace(name="microphone-recording.wav", size=len(data), getvalue=lambda: data)
 
 
 def run_analysis(file):
@@ -118,7 +129,7 @@ if ss.error:
 
 if ss.result is None:
     if not ss.error:
-        st.info("Upload a recording and press **Transcribe & analyse** to begin.")
+        st.info("Upload or record audio, then press **Transcribe & analyse** to begin.")
     st.stop()
 
 # ---------------------------------------------------------------- analysis (cached per input state)
