@@ -7,7 +7,7 @@ from streamlit.runtime.scriptrunner import get_script_run_ctx
 if get_script_run_ctx(suppress_warning=True) is None:  # started with `python3 app.py`
     from streamlit.web import cli
 
-    sys.argv = ["streamlit", "run", str(Path(__file__).resolve())]
+    sys.argv = ["streamlit", "run", str(Path(__file__).resolve()), "--server.port", "8600"]
     sys.exit(cli.main())
 
 import pandas as pd

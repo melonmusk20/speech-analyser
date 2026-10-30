@@ -1,6 +1,5 @@
 [server]
 maxUploadSize = 500
-port = 8600
 
 [browser]
 gatherUsageStats = false
