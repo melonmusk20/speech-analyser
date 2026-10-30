@@ -1,0 +1,15 @@
+services:
+  speech-analyser:
+    build:
+      context: .
+      args:
+        WHISPER_MODEL: base
+    image: speech-analyser:latest
+    ports:
+      - "8600:8600"
+    volumes:
+      - models:/models   # extra Whisper models downloaded from the app are kept here
+    restart: unless-stopped
+
+volumes:
+  models:
