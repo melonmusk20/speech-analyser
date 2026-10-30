@@ -1,14 +1,6 @@
----
-title: Speech Analyser
-emoji: 🎙️
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 8600
-pinned: false
----
-
 # Speech Analyser
+
+**Live app:** https://melonmusk20-speech-analyser-app-reopyb.streamlit.app/
 
 Local Streamlit app: upload a recording, get a transcript, word count, WPM, fillers,
 vocabulary, repetition and pause/fluency analysis, and export TXT / JSON / CSV.
